@@ -33,3 +33,6 @@ con.connect(function (err){
     if (err) throw err;
     console.log('Connected to yoga_mysql database')
 })
+app.listen(3000, () => {
+    console.log('https://localhost:3000');
+});
