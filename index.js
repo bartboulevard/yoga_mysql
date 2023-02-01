@@ -34,9 +34,9 @@ con.connect(function (err){
     console.log('Connected to yoga_mysql database')
 })
 
-//show all articles - index page
+// show all articles - index page
 app.get('/', (req, res) => {
-    let query = 'SELECT * FROM article';
+    let query = "SELECT * FROM article";
     let articles = []
     con.query = (query, (err, result) => {
         if (err) throw err;
@@ -45,8 +45,23 @@ app.get('/', (req, res) => {
             articles: articles
         })
     })
-})
+});
+
+// show article by this slug
+app.get('/article/:slug', (req, res) => {
+    let query = `SELECT * FROM article WHERE slug="${req.params.slug}"`
+    let article
+    con.query(query, (err, result) => {
+        if (err) throw err;
+        article = result
+        console.log(article)
+        res.render('article', {
+            article:article
+        })
+    });
+});
+
 
 app.listen(3000, () => {
-    console.log('https://localhost:3000');
+    console.log('http://localhost:3000');
 });
