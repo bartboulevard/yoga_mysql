@@ -11,7 +11,7 @@ app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine({
     extname: 'hbs',
     defaultLayout: 'main',
-    layoutsDir: __dirname + 'views/layouts/',
+    layoutsDir: __dirname + '/views/layouts/',
 }))
 // setup static public dir
 app.use(express.static('public'));
@@ -38,7 +38,7 @@ con.connect(function (err){
 app.get('/', (req, res) => {
     let query = "SELECT * FROM article";
     let articles = []
-    con.query = (query, (err, result) => {
+    con.query(query, (err, result) => {
         if (err) throw err;
         articles = result
         res.render('index', {
@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 
 // show article by this slug
 app.get('/article/:slug', (req, res) => {
-    let query = `SELECT * FROM article WHERE slug="${req.params.slug}"`
+    let query = `SELECT article.name, article.slug, article.image, article.body, article.published, author.name AS author_name FROM article INNER JOIN author ON article.author_id=author.id WHERE slug="${req.params.slug}"`
     let article
     con.query(query, (err, result) => {
         if (err) throw err;
